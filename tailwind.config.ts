@@ -5,29 +5,23 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        playfair:  ['"Playfair Display"', 'Georgia', 'serif'],
-        outfit:    ['Outfit', 'Inter', 'sans-serif'],
-        cormorant: ['"Cormorant Garamond"', 'Garamond', 'serif'],
+        serif: ['"DM Serif Display"', 'Georgia', 'serif'],
+        mono:  ['"Space Mono"', 'monospace'],
+        sans:  ['Geist', 'Inter', 'sans-serif'],
       },
       colors: {
-        navy:           '#0f1923',
-        'navy-mid':     '#162030',
-        'navy-light':   '#1e2d40',
-        cream:          '#f7f3ec',
-        'cream-dark':   '#ede7db',
-        copper:         '#b87333',
-        'copper-light': '#d4956a',
-        'copper-dim':   '#7a4d22',
-        ink:            '#1a1a2e',
-        'muted-dark':   '#8899aa',
-        'muted-light':  '#8a7d6e',
-        green:          '#2d6a4f',
-        'green-light':  '#52b788',
+        black:   '#0D0D0D',
+        white:   '#F0EDE6',
+        amber:   '#E8892A',
+        'amber-d': '#B86A10',
+        grey:    '#1A1A1A',
+        'grey-2': '#2A2A2A',
+        'grey-3': '#3A3A3A',
+        muted:   '#7A7A7A',
+        border:  '#232323',
       },
-      transitionDuration: { '400': '400ms' },
     },
   },
   plugins: [],
 }
-
 export default config
