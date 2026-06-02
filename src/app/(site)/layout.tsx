@@ -1,0 +1,21 @@
+import { Navbar }         from '@/components/layout/Navbar'
+import { Footer }         from '@/components/layout/Footer'
+import { CartDrawer }     from '@/components/shared/CartDrawer'
+import { WhatsAppButton } from '@/components/shared/WhatsAppButton'
+import { CartProvider }   from '@/components/shared/CartProvider'
+import { SmoothScroll }   from '@/components/shared/SmoothScroll'
+
+export default function SiteLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <CartProvider>
+      <SmoothScroll />
+      <div className="grain relative">
+        <Navbar />
+        <main>{children}</main>
+        <Footer />
+        <CartDrawer />
+        <WhatsAppButton />
+      </div>
+    </CartProvider>
+  )
+}
