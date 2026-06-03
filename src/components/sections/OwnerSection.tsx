@@ -44,7 +44,7 @@ export function OwnerSection({ settings }: Props) {
           </span>
 
           <blockquote className="font-fraunces italic text-[#F4F4F0] text-2xl md:text-3xl leading-snug border-l-2 border-[#3D6B45] pl-6 relative z-10">
-            "I've spent 15 years making sure every customer walks out with
+            "I've spent 25 years making sure every customer walks out with
             exactly what they need — and nothing they don't."
           </blockquote>
 
