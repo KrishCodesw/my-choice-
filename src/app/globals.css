@@ -1,91 +1,127 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,600&family=Chivo:wght@300;400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,600&family=Chivo:wght@300;400;500;600&display=swap");
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tell Tailwind v4 where to scan for classes */
+@source "./src";
+@source "./app";
+@source "./components";
 
-:root {
-  /* Palette — Slate + Forest */
-  --parchment:    #F4F4F0;
-  --parchment-d:  #EEEEE8;
-  --parchment-dd: #E6E6DE;
-  --ink:          #1C2B1A;
-  --ink-mid:      #2E3D2C;
-  --forest:       #3D6B45;
-  --forest-d:     #2A4D30;
-  --forest-l:     #EBF2EC;
-  --muted:        #8A8A7A;
-  --muted-l:      #AEAE9E;
-  --border:       #DDDDD5;
-  --border-d:     #C8C8BE;
-  --white:        #FAFAF6;
+/* Port your custom design system to v4 */
+@theme {
+  --color-parchment: #f4f4f0;
+  --color-parchment-d: #eeeee8;
+  --color-parchment-dd: #e6e6de;
+  --color-ink: #1c2b1a;
+  --color-ink-mid: #2e3d2c;
+  --color-forest: #3d6b45;
+  --color-forest-d: #2a4d30;
+  --color-forest-l: #ebf2ec;
+  --color-muted: #8a8a7a;
+  --color-muted-l: #aeae9e;
+  --color-border: #ddddd5;
+  --color-border-d: #c8c8be;
+
+  --font-fraunces: "Fraunces", Georgia, serif;
+  --font-chivo: "Chivo", "Inter", sans-serif;
 }
 
 @layer base {
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
-    background: var(--parchment);
-    color: var(--ink);
-    font-family: 'Chivo', 'Inter', sans-serif;
+    background: var(--color-parchment);
+    color: var(--color-ink);
+    font-family: var(--font-chivo);
     font-weight: 300;
     overflow-x: hidden;
   }
-  ::selection { background: var(--forest); color: var(--parchment); }
-  ::-webkit-scrollbar { width: 3px; }
-  ::-webkit-scrollbar-track { background: var(--parchment); }
-  ::-webkit-scrollbar-thumb { background: var(--forest-d); border-radius: 2px; }
+  ::selection {
+    background: var(--color-forest);
+    color: var(--color-parchment);
+  }
+  ::-webkit-scrollbar {
+    width: 3px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-parchment);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-forest-d);
+    border-radius: 2px;
+  }
 }
 
 @layer utilities {
-  .font-fraunces { font-family: 'Fraunces', Georgia, serif; }
-  .font-chivo    { font-family: 'Chivo', 'Inter', sans-serif; }
-
   /* Fluid type */
-  .text-display { font-size: clamp(56px, 10vw, 130px); line-height: 0.88; letter-spacing: -0.02em; }
-  .text-large   { font-size: clamp(36px, 6vw, 80px);   line-height: 0.92; letter-spacing: -0.02em; }
-  .text-medium  { font-size: clamp(22px, 3.5vw, 44px); line-height: 1.05; letter-spacing: -0.01em; }
+  .text-display {
+    font-size: clamp(56px, 10vw, 130px);
+    line-height: 0.88;
+    letter-spacing: -0.02em;
+  }
+  .text-large {
+    font-size: clamp(36px, 6vw, 80px);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+  }
+  .text-medium {
+    font-size: clamp(22px, 3.5vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
 
   /* Labels */
-  .label    { font-family: 'Chivo', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; }
-  .label-sm { font-family: 'Chivo', sans-serif; font-size: 9px;  font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; }
-
-  /* Forest accent */
-  .text-forest  { color: var(--forest); }
-  .bg-forest    { background: var(--forest); }
-  .border-forest { border-color: var(--forest); }
+  .label {
+    font-family: var(--font-chivo);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .label-sm {
+    font-family: var(--font-chivo);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
 
   /* Subtle grid texture for dark sections */
   .grid-texture {
     background-image:
-      linear-gradient(rgba(61,107,69,0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(61,107,69,0.06) 1px, transparent 1px);
+      linear-gradient(rgba(61, 107, 69, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(61, 107, 69, 0.06) 1px, transparent 1px);
     background-size: 64px 64px;
   }
 }
 
-/* Scroll reveal */
+/* Scroll reveal & Animations */
 .reveal {
   opacity: 0;
   transform: translateY(28px);
-  transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1);
+  transition:
+    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-/* Ticker */
 @keyframes ticker {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
-.ticker-track { animation: ticker 32s linear infinite; }
-.ticker-track:hover { animation-play-state: paused; }
-
-/* Hero animations */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(32px); }
-  to   { opacity: 1; transform: translateY(0); }
+.ticker-track {
+  animation: ticker 32s linear infinite;
 }
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+.ticker-track:hover {
+  animation-play-state: paused;
 }
