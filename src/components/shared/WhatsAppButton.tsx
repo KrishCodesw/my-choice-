@@ -5,7 +5,8 @@ export function WhatsAppButton() {
   return (
     <button
       onClick={() => openWhatsApp(waMessages.general())}
-      className="fixed bottom-6 right-6 z-40 w-12 h-12 bg-[#25d366] flex items-center justify-center hover:scale-110 transition-transform duration-200 shadow-lg shadow-[#25d366]/20"
+      className="fixed bottom-6 right-6 z-40 w-13 h-13 bg-[#25d366] flex items-center justify-center hover:scale-110 hover:bg-[#1da851] transition-all duration-200 shadow-lg shadow-[#25d366]/25 rounded-sm"
+      style={{ width: 52, height: 52 }}
       aria-label="Chat on WhatsApp"
     >
       <svg viewBox="0 0 24 24" className="w-6 h-6 fill-white">
