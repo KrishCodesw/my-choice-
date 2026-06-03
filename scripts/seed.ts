@@ -24,6 +24,28 @@ async function deleteExisting(type: string) {
   warn(`Cleared existing "${type}" docs`)
 }
 
+
+async function uploadImageFromUrl(url: string, filename: string) {
+  try {
+    const response = await fetch(url)
+    if (!response.ok) throw new Error(`Failed to fetch image: ${response.statusText}`)
+    
+    const buffer = Buffer.from(await response.arrayBuffer())
+    const asset = await client.assets.upload('image', buffer, { filename })
+    
+    return {
+      _type: 'image',
+      asset: {
+        _type: 'reference',
+        _ref: asset._id,
+      },
+    }
+  } catch (error) {
+    warn(`Could not upload image for ${filename}. Proceeding without image.`)
+    return undefined
+  }
+}
+
 // ─── SITE SETTINGS ────────────────────────────────────────────
 async function seedSiteSettings() {
   await deleteExisting('siteSettings')
