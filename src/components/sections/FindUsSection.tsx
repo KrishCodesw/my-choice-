@@ -13,7 +13,7 @@ export function FindUsSection({ settings }: Props) {
     <section id="contact" className="bg-[#EEEEE8] border-t border-[#DDDDD5]">
       {/* Header */}
       <div className="border-b border-[#DDDDD5] px-6 md:px-10 py-4 flex items-center gap-4">
-        <span className="font-fraunces text-[#DDDDD5] text-3xl font-light select-none">
+        <span className="font-fraunces text-[#1C2B1A] text-3xl font-light select-none">
           09
         </span>
         <span className="w-px h-5 bg-[#DDDDD5]" />
@@ -73,18 +73,31 @@ export function FindUsSection({ settings }: Props) {
 
         {/* Map */}
         <div
-          className="relative min-h-[300px] bg-[#E6E6DE] flex flex-col items-center justify-center gap-3"
+          className="relative min-h-[350px] lg:min-h-full bg-[#E6E6DE] flex flex-col items-center justify-center gap-3 overflow-hidden"
           style={{
             backgroundImage:
               "linear-gradient(rgba(61,107,69,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(61,107,69,0.06) 1px, transparent 1px)",
             backgroundSize: "48px 48px",
           }}
         >
-          <MapPin className="w-12 h-12 text-[#3D6B45]" strokeWidth={1.2} />
-          <p className="label-sm text-[#8A8A7A]">Google Maps Here</p>
-          <p className="text-xs text-[#AEAE9E]">
-            Add embed URL in Site Settings
-          </p>
+          {settings?.googleMapsUrl ? (
+            <iframe
+              src={settings.googleMapsUrl}
+              className="absolute inset-0 w-full h-full border-0  opacity-80  hover:opacity-100 transition-all duration-700 ease-in-out"
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Store Location Map"
+            />
+          ) : (
+            <>
+              <MapPin className="w-12 h-12 text-[#3D6B45]" strokeWidth={1.2} />
+              <p className="label-sm text-[#8A8A7A]">Google Maps Here</p>
+              <p className="text-xs text-[#AEAE9E]">
+                Add embed URL in Site Settings
+              </p>
+            </>
+          )}
         </div>
       </div>
     </section>

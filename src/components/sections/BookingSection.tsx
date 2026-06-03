@@ -39,7 +39,7 @@ export function BookingSection() {
     <section id="booking" className="bg-[#EEEEE8] border-t border-[#DDDDD5]">
       {/* Header */}
       <div className="border-b border-[#DDDDD5] px-6 md:px-10 py-4 flex items-center gap-4">
-        <span className="font-fraunces text-[#DDDDD5] text-3xl font-light select-none">
+        <span className="font-fraunces text-[#1C2B1A] text-3xl font-light select-none">
           06
         </span>
         <span className="w-px h-5 bg-[#DDDDD5]" />
