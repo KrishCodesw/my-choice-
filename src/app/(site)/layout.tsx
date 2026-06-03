@@ -1,11 +1,15 @@
-import { Navbar }         from '@/components/layout/Navbar'
-import { Footer }         from '@/components/layout/Footer'
-import { CartDrawer }     from '@/components/shared/CartDrawer'
-import { WhatsAppButton } from '@/components/shared/WhatsAppButton'
-import { CartProvider }   from '@/components/shared/CartProvider'
-import { SmoothScroll }   from '@/components/shared/SmoothScroll'
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { CartDrawer } from "@/components/shared/CartDrawer";
 
-export default function SiteLayout({ children }: { children: React.ReactNode }) {
+import { CartProvider } from "@/components/shared/CartProvider";
+import { SmoothScroll } from "@/components/shared/SmoothScroll";
+
+export default function SiteLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <CartProvider>
       <SmoothScroll />
@@ -14,8 +18,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
         <main>{children}</main>
         <Footer />
         <CartDrawer />
-        <WhatsAppButton />
       </div>
     </CartProvider>
-  )
+  );
 }
