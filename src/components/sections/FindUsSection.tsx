@@ -1,5 +1,6 @@
 "use client";
 import { MapPin, Clock, Phone, ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 import { openWhatsApp, waMessages } from "@/lib/utils";
 import type { SiteSettings } from "@/types";
@@ -60,14 +61,23 @@ export function FindUsSection({ settings }: Props) {
               </div>
             );
           })}
-          <div className="px-6 md:px-10 py-7">
+          <div className="px-6 md:px-10 py-7 flex flex-col sm:flex-row gap-4">
             <button
               onClick={() => openWhatsApp(waMessages.directions())}
-              className="label text-[#F4F4F0] bg-[#3D6B45] px-7 py-3.5 flex items-center gap-2 hover:bg-[#1C2B1A] transition-colors duration-200"
+              className="label text-[#F4F4F0] bg-[#3D6B45] px-7 py-3.5 flex items-center gap-2 hover:bg-[#1C2B1A] transition-all duration-200 active:scale-[0.98]"
             >
-              <span>Get Directions via WhatsApp</span>
+              <span>Get Directions</span>
               <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
             </button>
+            <div className="relative w-full h-24 sm:w-32 sm:h-auto border border-[#DDDDD5] overflow-hidden group cursor-pointer active:scale-[0.98] transition-transform duration-200">
+              <Image 
+                src="/IMG_20260604_205400.jpg"
+                alt="Showroom"
+                fill
+                sizes="(max-width: 640px) 100vw, 128px"
+                className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
+              />
+            </div>
           </div>
         </div>
 

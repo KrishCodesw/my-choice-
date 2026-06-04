@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import type { SiteSettings } from "@/types";
 
 interface Props {
@@ -20,18 +21,17 @@ export function OwnerSection({ settings }: Props) {
       <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-[#2E3D2C]">
         {/* Photo */}
         <div className="relative min-h-[360px] lg:min-h-[500px] bg-[#243524] overflow-hidden flex items-center justify-center">
-          {settings?.ownerPhoto?.asset?.url ? (
-            <img
-              src={`${settings.ownerPhoto.asset.url}?w=800&h=900&fit=crop&auto=format`}
-              alt={settings.ownerName ?? "Owner"}
-              className="w-full h-full object-cover absolute inset-0"
-            />
-          ) : (
-            <div className="flex flex-col items-center gap-3 opacity-20">
-              <span className="text-8xl">👤</span>
-              <span className="label-sm text-[#8A8A7A]">Owner Photo</span>
-            </div>
-          )}
+          <Image
+            src={
+              settings?.ownerPhoto?.asset?.url
+                ? `${settings.ownerPhoto.asset.url}?w=800&h=900&fit=crop&auto=format`
+                : "/showroom1.jpg"
+            }
+            alt={settings?.ownerName ?? "The Owner"}
+            fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="w-full h-full object-cover absolute inset-0"
+          />
           {/* Accent bar */}
           <div className="absolute bottom-0 left-0 w-1 h-24 bg-[#3D6B45]" />
         </div>
@@ -66,7 +66,7 @@ export function OwnerSection({ settings }: Props) {
               href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? ""}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="label text-[#1C2B1A] bg-[#3D6B45] px-5 py-2.5 hover:bg-[#F4F4F0] transition-colors"
+              className="label text-[#1C2B1A] bg-[#3D6B45] px-5 py-2.5 hover:bg-[#F4F4F0] transition-all duration-200 active:scale-[0.98]"
             >
               WhatsApp
             </a>
@@ -75,14 +75,14 @@ export function OwnerSection({ settings }: Props) {
                 href={`https://instagram.com/${settings.instagramHandle}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="label text-[#F4F4F0] border border-[#2E3D2C] px-5 py-2.5 hover:border-[#3D6B45] hover:text-[#3D6B45] transition-colors"
+                className="label text-[#F4F4F0] border border-[#2E3D2C] px-5 py-2.5 hover:border-[#3D6B45] hover:text-[#3D6B45] transition-all duration-200 active:scale-[0.98]"
               >
                 Instagram
               </a>
             )}
             <a
               href="#booking"
-              className="label text-[#F4F4F0] border border-[#2E3D2C] px-5 py-2.5 hover:border-[#3D6B45] hover:text-[#3D6B45] transition-colors"
+              className="label text-[#F4F4F0] border border-[#2E3D2C] px-5 py-2.5 hover:border-[#3D6B45] hover:text-[#3D6B45] transition-all duration-200 active:scale-[0.98]"
             >
               Book 1:1 →
             </a>

@@ -1,8 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Zap, Wrench, Droplets, ArrowDownRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { motion, useSpring, useMotionValue, useInView } from "framer-motion";
+import {
+  ArrowDownRight,
+  Zap,
+  Wrench,
+  Droplets,
+  Ruler,
+  Compass,
+  HardHat,
+} from "lucide-react";
 import type { SiteSettings } from "@/types";
 
 interface Props {
@@ -10,176 +18,210 @@ interface Props {
 }
 
 export function HeroSection({ settings }: Props) {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { once: true });
 
-  // Subtle mouse tracking for floating elements
+  // 1. PHYSICAL SPRING SYSTEM
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // Custom springs for heavy architectural momentum
+  const springConfig = { damping: 40, stiffness: 120 };
+  const smoothX = useSpring(mouseX, springConfig);
+  const smoothY = useSpring(mouseY, springConfig);
+
+  // Dynamic rotation for the central "Blueprint Orbit"
+  const rotateX = useSpring(useMotionValue(0), springConfig);
+  const rotateY = useSpring(useMotionValue(0), springConfig);
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const { innerWidth, innerHeight } = window;
-      setMousePosition({
-        x: (e.clientX / innerWidth - 0.5) * 40,
-        y: (e.clientY / innerHeight - 0.5) * 40,
-      });
+      const centerX = innerWidth / 2;
+      const centerY = innerHeight / 2;
+
+      const x = (e.clientX - centerX) / 25;
+      const y = (e.clientY - centerY) / 25;
+
+      mouseX.set(x);
+      mouseY.set(y);
+      rotateX.set(-y * 0.8);
+      rotateY.set(x * 0.8);
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  }, [mouseX, mouseY, rotateX, rotateY]);
 
-  const stats = [
-    { num: settings?.stats?.yearsInBusiness ?? "15+", label: "Years" },
-    { num: settings?.stats?.brandsStocked ?? "50+", label: "Brands" },
-    { num: settings?.stats?.projectsSupplied ?? "500+", label: "Projects" },
-  ];
-
-  const floatingIcons = [
-    {
-      Icon: Zap,
-      color: "var(--forest)",
-      label: "Electric",
-      position: "top-[15%] left-[5%] md:top-[20%] md:left-[10%]",
-    },
-    {
-      Icon: Wrench,
-      color: "var(--muted)",
-      label: "Hardware",
-      position: "bottom-[25%] left-[5%] md:bottom-[20%] md:left-[15%]",
-    },
-    {
-      Icon: Droplets,
-      color: "var(--ink)",
-      label: "Sanitary",
-      position: "top-[25%] right-[5%] md:top-[30%] md:right-[10%]",
-    },
+  const architecturalIcons = [
+    { Icon: Zap, label: "ELECTRIC", pos: "top-[5%] left-[10%]" },
+    { Icon: Wrench, label: "HARDWARE", pos: "bottom-[15%] left-[5%]" },
+    { Icon: Droplets, label: "SANITARY", pos: "top-[20%] right-[10%]" },
+    // { Icon: Ruler, label: "04", pos: "bottom-[10%] right-[5%]" },
   ];
 
   return (
     <section
+      ref={containerRef}
       id="home"
-      // Added pt-28 to clear the fixed Navbar, using your bg-parchment
-      className="relative w-full min-h-[100svh] bg-parchment flex flex-col overflow-hidden pt-28 pb-12"
+      className="relative w-full h-screen bg-parchment overflow-hidden flex items-center justify-center p-6 md:p-12"
     >
-      {/* Decorative Blur matching your original vibe */}
-      <div className="absolute top-[-80px] right-[-80px] w-[420px] h-[420px] rounded-full bg-forest/10 blur-[100px] pointer-events-none" />
+      {/* 2. PROCEDURAL BLUEPRINT LAYER (The "Canvas") */}
+      <div className="absolute inset-0 grid-texture opacity-[0.08] pointer-events-none" />
 
-      {/* Interactive Floating Icons */}
-      {floatingIcons.map((item, i) => (
-        <motion.div
-          key={item.label}
-          className={`absolute ${item.position} hidden sm:flex flex-col items-center gap-2 opacity-30 hover:opacity-100 transition-opacity duration-500 z-0 pointer-events-none md:pointer-events-auto`}
-          animate={{
-            x: mousePosition.x * (i + 1),
-            y: mousePosition.y * (i + 1) + Math.sin(Date.now() / 1000 + i) * 10,
-          }}
-          transition={{ type: "spring", stiffness: 50, damping: 20 }}
-        >
-          <div className="p-4 rounded-full bg-white/50 backdrop-blur-md shadow-sm border border-border">
-            <item.Icon size={32} color={item.color} strokeWidth={1.5} />
-          </div>
-          <span className="label-sm text-muted">{item.label}</span>
-        </motion.div>
-      ))}
+      {/* Dynamic Grid Axis */}
+      <motion.div
+        style={{ x: smoothX, y: smoothY }}
+        className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20"
+      >
+        <div className="w-full h-px bg-forest-d/40" />
+        <div className="h-full w-px bg-forest-d/40 absolute" />
+      </motion.div>
 
-      <div className="flex-1 flex flex-col w-full max-w-7xl mx-auto px-6 md:px-10 relative z-10">
-        {/* Top Meta Strip */}
+      {/* 3. THE KINETIC CORE (Central Orbit) */}
+      <motion.div
+        style={{ rotateX, rotateY, perspective: 1000 }}
+        className="relative z-20 flex flex-col items-center justify-center text-center gap-12"
+      >
+        {/* Technical Eyebrow */}
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="border-b border-border flex items-center justify-between py-4 mb-12 md:mb-20"
+          initial={{ opacity: 0, letterSpacing: "1em" }}
+          animate={isInView ? { opacity: 1, letterSpacing: "0.4em" } : {}}
+          transition={{ duration: 1.5, ease: [0.23, 1, 0.32, 1] }}
+          className="label-sm text-forest uppercase"
         >
-          <div className="flex items-center gap-4 overflow-x-auto no-scrollbar">
-            {["Electrical", "Hardware", "Sanitary Ware"].map((s, i) => (
-              <span key={s} className="flex items-center gap-3 shrink-0">
-                {i > 0 && <span className="w-1 h-1 rounded-full bg-border" />}
-                <span className="label-sm text-muted">{s}</span>
-              </span>
-            ))}
-          </div>
-          <span className="label-sm text-muted hidden md:block">
-            {settings?.address?.split("\n").pop() ?? "Mumbai"}
-          </span>
+          Architectural Procurement
         </motion.div>
 
-        {/* Eyebrow */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex items-center gap-4 mb-6 md:mb-8"
-        >
-          <div className="w-12 h-px bg-forest" />
-          <span className="label text-forest">Exclusive Showroom</span>
-        </motion.div>
-
-        {/* Headline - Using your fluid .text-display and .font-fraunces */}
-        <div className="mb-12 flex flex-wrap items-baseline gap-x-6 gap-y-2">
+        {/* The "Impact" Typo - Large, Responsive, Engineered */}
+        <div className="relative group cursor-default">
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-display font-fraunces text-ink font-bold"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ delay: 0.2, duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
+            className="text-[12vw] lg:text-[10vw] font-fraunces font-bold text-ink leading-none tracking-tighter"
           >
-            MY
+            MY<span className="text-forest font-light italic">CHOICE.</span>
           </motion.h1>
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-display font-fraunces italic text-forest"
-          >
-            CHOICE.
-          </motion.h1>
+
+          {/* Reactive Decorative Ring */}
+          <motion.div
+            style={{ x: smoothX, y: smoothY }}
+            className="absolute -inset-10 border border-forest/10 rounded-full pointer-events-none hidden md:block"
+          />
         </div>
 
-        {/* Actions - Using your .label class */}
+        {/* Action Group with Staggered Entrance */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-col sm:flex-row flex-wrap gap-4 mb-auto"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.6, duration: 0.8 }}
+          className="flex flex-col md:flex-row items-center gap-6"
         >
           <a
             href="#products"
-            className="group flex items-center justify-between gap-4 bg-ink text-parchment px-8 py-4 label hover:bg-forest transition-all duration-300"
+            className="group relative flex items-center gap-12 bg-ink text-parchment px-10 py-6 label overflow-hidden active:scale-[0.96] transition-transform duration-200"
           >
-            Browse Products
-            <ArrowDownRight
-              className="group-hover:rotate-[-45deg] transition-transform duration-300"
-              size={18}
-            />
+            <span className="relative z-10">Access Inventory</span>
+            <ArrowDownRight className="relative z-10 group-hover:rotate-[-45deg] transition-transform duration-500" />
+            <div className="absolute inset-0 bg-forest translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
           </a>
+
           <a
             href="#booking"
-            className="flex items-center justify-center border border-border px-8 py-4 label text-ink hover:border-forest hover:text-forest transition-all duration-300"
+            className="flex items-center gap-4 border-b border-ink/20 py-2 label text-ink hover:text-forest hover:border-forest transition-all duration-300"
           >
-            Book 1:1 Session
-          </a>
-          <a
-            href="#workers"
-            className="flex items-center justify-center border border-border px-8 py-4 label text-ink hover:border-forest hover:text-forest transition-all duration-300"
-          >
-            Find a Worker
+            1:1 Session
           </a>
         </motion.div>
+      </motion.div>
 
-        {/* Stats Grid */}
+      {/* 4. TECHNICAL ANNOTATIONS (The "Stunning" Peripheral Details) */}
+
+      {/* Floating Blueprint Nodes */}
+      {architecturalIcons.map((node, i) => (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-0 border-t border-border pt-8 mt-16 max-w-3xl"
+          key={i}
+          style={{ x: smoothX, y: smoothY }}
+          className={`absolute ${node.pos} hidden lg:flex flex-col items-center gap-3 opacity-10 hover:opacity-100 transition-opacity duration-700 pointer-events-none lg:pointer-events-auto`}
         >
-          {stats.map((s, i) => (
-            <div
-              key={s.label}
-              className={`flex flex-col ${i > 0 ? "md:pl-8 md:border-l border-border" : "md:pr-8"}`}
-            >
-              <div className="font-fraunces text-4xl md:text-5xl font-bold text-ink mb-1 md:mb-2">
-                {s.num}
-              </div>
-              <div className="label-sm text-muted">{s.label}</div>
-            </div>
-          ))}
+          <div className="p-5 border border-ink/10 rounded-sm bg-white/40 backdrop-blur-sm">
+            <node.Icon size={28} strokeWidth={1} className="text-forest" />
+          </div>
+          <div className="flex flex-col items-center gap-1">
+            <span className="label-sm text-[8px] text-muted">
+              SECTOR_{node.label}
+            </span>
+            <div className="w-[1px] h-12 bg-gradient-to-b from-forest/40 to-transparent" />
+          </div>
         </motion.div>
+      ))}
+
+      {/* Corner Technical Strip */}
+      <div className="absolute top-10 left-10 hidden xl:flex flex-col gap-1 opacity-20 pointer-events-none">
+        {[...Array(5)].map((_, i) => (
+          <div
+            key={i}
+            className="w-8 h-[1px] bg-ink"
+            style={{ opacity: 1 - i * 0.2 }}
+          />
+        ))}
+        {/* <span className="label-sm text-[8px] mt-2">DRAFTING_MODE: ENABLED</span> */}
+      </div>
+
+      {/* Bottom Interface Bar */}
+      <motion.div
+        initial={{ y: 50, opacity: 0 }}
+        animate={isInView ? { y: 0, opacity: 1 } : {}}
+        transition={{ delay: 1, duration: 1 }}
+        className="absolute bottom-10 inset-x-12 flex items-end justify-between border-t border-ink/5 pt-6"
+      >
+        <div className="flex gap-8">
+          <div className="flex flex-col">
+            <span className="label-sm text-forest/60">ESTD</span>
+            <span className="font-fraunces font-bold text-xl">2001</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="label-sm text-forest/60">LOC</span>
+            <span className="font-fraunces font-bold text-xl">MUMBAI</span>
+          </div>
+        </div>
+
+        {/* Kinetic Scroll Indicator */}
+        <div
+          className="flex flex-col items-center gap-2 group cursor-pointer"
+          onClick={() =>
+            window.scrollTo({ top: window.innerHeight, behavior: "smooth" })
+          }
+        >
+          <span className="label-sm text-muted group-hover:text-ink transition-colors">
+            DRAG_DOWN
+          </span>
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="w-[1px] h-8 bg-forest"
+          />
+        </div>
+
+        <div className="hidden md:flex gap-12 text-right">
+          <div className="flex flex-col">
+            <span className="label-sm text-forest/60">AUTH</span>
+            <span className="font-fraunces font-bold text-xl">VERIFIED</span>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Decorative Blueprint Corner (The "Stunner" Detail) */}
+      <div className="absolute top-0 right-0 w-32 h-32 md:w-64 md:h-64 pointer-events-none opacity-5">
+        <svg
+          viewBox="0 0 100 100"
+          className="w-full h-full fill-none stroke-ink stroke-[0.5]"
+        >
+          <circle cx="100" cy="0" r="40" />
+          <circle cx="100" cy="0" r="60" />
+          <circle cx="100" cy="0" r="80" />
+          <line x1="100" y1="0" x2="0" y2="100" />
+        </svg>
       </div>
     </section>
   );

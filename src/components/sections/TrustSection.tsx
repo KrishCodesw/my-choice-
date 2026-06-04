@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useRef } from 'react'
+import Image from 'next/image'
 import type { Testimonial, Brand, SiteSettings } from '@/types'
 
 interface Props { testimonials: Testimonial[]; brands: Brand[]; settings: SiteSettings | null }
@@ -79,6 +80,17 @@ export function TrustSection({ testimonials, brands, settings }: Props) {
                 <p className="font-chivo font-medium text-sm text-[#1C2B1A]">{t.name}</p>
                 {t.role && <p className="label-sm text-[#AEAE9E] mt-0.5">{t.role}</p>}
               </div>
+              {(t as Testimonial).projectPhoto?.asset?.url && (
+                <div className="relative w-12 h-12 overflow-hidden border border-[#DDDDD5]">
+                  <Image 
+                    src={`${(t as Testimonial).projectPhoto!.asset.url}?w=100&h=100&fit=crop`}
+                    alt={t.name}
+                    fill
+                    sizes="48px"
+                    className="object-cover"
+                  />
+                </div>
+              )}
               {(t as Testimonial).projectPhoto && (
                 <span className="label-sm text-[#3D6B45] border border-[#3D6B45]/30 px-2 py-0.5">✓ Verified</span>
               )}

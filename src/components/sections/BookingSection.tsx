@@ -157,7 +157,7 @@ export function BookingSection() {
                 <button
                   key={t}
                   onClick={() => setMeetingType(t as any)}
-                  className={`flex-1 py-3 label flex items-center justify-center gap-2 transition-colors duration-200 border-r border-[#DDDDD5] last:border-r-0 ${
+                  className={`flex-1 py-3 label flex items-center justify-center gap-2 transition-all duration-200 border-r border-[#DDDDD5] last:border-r-0 active:scale-[0.98] ${
                     meetingType === t
                       ? "bg-[#1C2B1A] text-[#F4F4F0]"
                       : "text-[#8A8A7A] hover:text-[#1C2B1A]"
@@ -190,7 +190,7 @@ export function BookingSection() {
           </div>
           <button
             onClick={handleBook}
-            className="w-full bg-[#3D6B45] text-[#F4F4F0] py-4 label flex items-center justify-center gap-2 hover:bg-[#1C2B1A] transition-colors duration-200"
+            className="w-full bg-[#3D6B45] text-[#F4F4F0] py-4 label flex items-center justify-center gap-2 hover:bg-[#1C2B1A] transition-all duration-200 active:scale-[0.98]"
           >
             <span>Confirm Booking via WhatsApp</span>
             <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
