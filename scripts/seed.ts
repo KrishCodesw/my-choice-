@@ -995,6 +995,35 @@ async function seedFaqs() {
   log(`FAQs (${faqsData.length})`)
 }
 
+async function seedProductsWithoutClear(brandIds: Record<string, string>) {
+  let count   = 0
+  let skipped = 0
+  for (const p of rawProducts) {
+    const brandRef = brandIds[p.brand]
+    if (!brandRef) {
+      warn(`Brand "${p.brand}" not found — skipping "${p.name}"`)
+      skipped++
+      continue
+    }
+    const { brand, ...rest } = p
+    await client.create({
+      _type: 'product',
+      ...rest,
+      slug: {
+        _type: 'slug',
+        current: p.name
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-|-$/g, '')
+          .substring(0, 96),
+      },
+      brand: { _type: 'reference', _ref: brandRef },
+    })
+    count++
+  }
+  log(`Products (${count} created${skipped ? `, ${skipped} skipped` : ''})`)
+}
+
 // ─────────────────────────────────────────────────────────────
 // MAIN
 // ─────────────────────────────────────────────────────────────
@@ -1012,7 +1041,9 @@ async function main() {
 
   try {
     await seedSiteSettings()
+    await deleteExisting('product')
     const brandIds = await seedBrands()
+    await seedProductsWithoutClear(brandIds)
     await seedProducts(brandIds)
     await seedWorkers()
     await seedTestimonials()
