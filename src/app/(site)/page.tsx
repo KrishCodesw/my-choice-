@@ -36,6 +36,59 @@ export default async function HomePage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            name: "MyChoice Electric & Hardware",
+            image: "https://mychoiceindia.vercel.app/showroom2.jpg",
+            description:
+              "Mumbai's premier showroom for luxury electrical, hardware, and sanitary systems. Authorized dealer for Jaquar, Havells, Kohler, and Hettich.",
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: settings?.address ?? "Andheri",
+              addressLocality: "Mumbai",
+              addressRegion: "MH",
+              postalCode: "400099",
+              addressCountry: "IN",
+            },
+            geo: {
+              "@type": "GeoCoordinates",
+              latitude: "19.0760",
+              longitude: "72.8777",
+            },
+            url: "https://mychoiceindia.vercel.app/",
+            telephone: settings?.phone ?? "+91 99206 70029",
+            openingHoursSpecification: [
+              {
+                "@type": "OpeningHoursSpecification",
+                dayOfWeek: [
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                ],
+                opens: "09:00",
+                closes: "21:00",
+              },
+              {
+                "@type": "OpeningHoursSpecification",
+                dayOfWeek: "Sunday",
+                opens: "09:00",
+                closes: "15:00",
+              },
+            ],
+            sameAs: [
+              `https://instagram.com/${settings?.instagramHandle ?? ""}`,
+              "https://mychoiceindia.vercel.app/",
+            ],
+          }),
+        }}
+      />
       <HeroSection settings={settings} />
       <NewArrivalsSection arrivals={newArrivals} />
       <ProductsSection products={products} />
