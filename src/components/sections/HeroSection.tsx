@@ -127,10 +127,10 @@ export function HeroSection({ settings }: Props) {
           </a>
 
           <a
-            href="#booking"
+            href="#workers"
             className="flex items-center gap-4 border-b border-ink/20 py-2 label text-ink hover:text-forest hover:border-forest transition-all duration-300"
           >
-            1:1 Session
+            Request Worker
           </a>
         </motion.div>
       </motion.div>
