@@ -55,12 +55,16 @@ export function NewArrivalsSection({ arrivals }: Props) {
   const display = fallback;
 
   return (
-    <section id="arrivals" ref={ref} className="bg-[#1C2B1A] border-t border-[#2E3D2C]">
+    <section
+      id="arrivals"
+      ref={ref}
+      className="bg-[#1C2B1A] border-t border-[#2E3D2C]"
+    >
       {/* Section header */}
       <div className="border-b border-[#2E3D2C] px-6 md:px-10 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <span className="font-fraunces text-[#2E3D2C] text-3xl font-light select-none">
-            03
+          <span className="font-fraunces text-[#F4F4F0] text-3xl font-light select-none">
+            02
           </span>
           <span className="w-px h-5 bg-[#2E3D2C]" />
           <span className="label text-[#F4F4F0]">New Arrivals</span>
@@ -75,22 +79,26 @@ export function NewArrivalsSection({ arrivals }: Props) {
             key={p._id}
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: i * 0.1, ease: [0.23, 1, 0.32, 1] }}
+            transition={{
+              duration: 0.6,
+              delay: i * 0.1,
+              ease: [0.23, 1, 0.32, 1],
+            }}
             className="p-8 md:p-10 flex flex-col gap-6 hover:bg-[#243524] transition-colors duration-200 cursor-pointer active:scale-[0.99]"
           >
             {/* Index + badge */}
             <div className="flex items-center justify-between">
-              <span className="font-fraunces text-[#2E3D2C] text-5xl leading-none select-none">
+              <span className="font-fraunces text-[#F4F4F0] text-5xl leading-none select-none">
                 0{i + 1}
               </span>
-              <span className="label-sm text-[#3D6B45] border border-[#3D6B45] px-2 py-0.5">
+              <span className="label-sm text-[#F4F4F0] border border-[#3D6B45] px-2 py-0.5">
                 New
               </span>
             </div>
 
             {/* Image */}
             <div className="aspect-video bg-[#243524] border border-[#2E3D2C] flex items-center justify-center overflow-hidden relative group">
-              <Image 
+              <Image
                 src={(p as any).imageUrl}
                 alt={p.brand?.name || "New Arrival"}
                 fill

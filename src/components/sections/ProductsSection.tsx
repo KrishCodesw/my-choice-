@@ -85,7 +85,7 @@ export function ProductsSection({ products }: ProductsSectionProps) {
       <div className="border-b border-[#DDDDD5] px-6 md:px-10 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <span className="font-fraunces text-[#DDDDD5] text-3xl font-light select-none">
-            02
+            03
           </span>
           <span className="w-px h-5 bg-[#DDDDD5]" />
           <span className="label text-[#1C2B1A]">Product Categories</span>
