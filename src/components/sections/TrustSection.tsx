@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import type { Testimonial, Brand, SiteSettings } from "@/types";
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
   settings: SiteSettings | null;
 }
 
-const fallbackT = [
+const fallbackT: Testimonial[] = [
   {
     _id: "1",
     name: "Rahul Mehta",
@@ -36,41 +37,41 @@ const fallbackT = [
   },
 ];
 
-const fallbackB = [
+const fallbackB: Brand[] = [
   {
     _id: "1",
     name: "Havells",
-    sector: "electrical" as const,
+    sector: "electrical",
     tagline: "ISI certified",
   },
   {
     _id: "2",
     name: "Jaquar",
-    sector: "sanitary" as const,
+    sector: "sanitary",
     tagline: "India's finest",
   },
   {
     _id: "3",
     name: "Anchor",
-    sector: "electrical" as const,
+    sector: "electrical",
     tagline: "Trusted wiring",
   },
   {
     _id: "4",
     name: "Kohler",
-    sector: "sanitary" as const,
+    sector: "sanitary",
     tagline: "Luxury ware",
   },
   {
     _id: "5",
     name: "Hettich",
-    sector: "hardware" as const,
+    sector: "hardware",
     tagline: "German hardware",
   },
   {
     _id: "6",
     name: "Legrand",
-    sector: "electrical" as const,
+    sector: "electrical",
     tagline: "French engineering",
   },
 ];
@@ -162,10 +163,10 @@ export function TrustSection({ testimonials, brands, settings }: Props) {
                   <p className="label-sm text-[#AEAE9E] mt-0.5">{t.role}</p>
                 )}
               </div>
-              {(t as Testimonial).projectPhoto?.asset?.url && (
+              {t.projectPhoto?.asset?.url && (
                 <div className="relative w-12 h-12 overflow-hidden border border-[#DDDDD5]">
                   <Image
-                    src={`${(t as Testimonial).projectPhoto!.asset.url}?w=100&h=100&fit=crop`}
+                    src={`${t.projectPhoto.asset.url}?w=100&h=100&fit=crop`}
                     alt={t.name}
                     fill
                     sizes="48px"
@@ -173,7 +174,7 @@ export function TrustSection({ testimonials, brands, settings }: Props) {
                   />
                 </div>
               )}
-              {(t as Testimonial).projectPhoto && (
+              {t.projectPhoto && (
                 <span className="label-sm text-[#3D6B45] border border-[#3D6B45]/30 px-2 py-0.5">
                   ✓ Verified
                 </span>
@@ -183,23 +184,42 @@ export function TrustSection({ testimonials, brands, settings }: Props) {
         ))}
       </div>
 
-      {/* Brands */}
-      <div className="px-6 md:px-10 py-8">
-        <p className="label text-[#AEAE9E] mb-6">Brands We Stock</p>
-        <div className="flex flex-wrap border border-[#DDDDD5]">
-          {displayB.map((b, i) => (
-            <div
-              key={b._id}
-              className="px-6 py-5 border-r border-b border-[#DDDDD5] hover:bg-[#1C2B1A] transition-colors duration-200 group cursor-default"
-            >
-              <div className="font-fraunces text-xl text-[#1C2B1A] group-hover:text-[#F4F4F0] transition-colors">
-                {b.name}
-              </div>
-              <div className="label-sm text-[#AEAE9E] group-hover:text-[#8A8A7A] mt-1 capitalize">
-                {b.sector}
-              </div>
-            </div>
-          ))}
+      {/* Brands: The Kinetic Ribbon */}
+      <div className="py-20 bg-[#F4F4F0] border-b border-[#DDDDD5] overflow-hidden">
+        <div className="px-6 md:px-10 mb-10 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-8 h-px bg-[#3D6B45]" />
+            <span className="label text-forest">BRANDS WE STOCK</span>
+          </div>
+          <span className="label-sm text-[#AEAE9E]">Authorized Dealer</span>
+        </div>
+
+        <div
+          className="relative w-full overflow-hidden"
+          style={{
+            maskImage:
+              "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+          }}
+        >
+          <div className="ticker-track flex gap-12 md:gap-24 w-max py-4">
+            {[...displayB, ...displayB, ...displayB].map((b, i) => (
+              <motion.div
+                key={`${b._id}-${i}`}
+                whileHover={{ scale: 1.05, y: -2 }}
+                className="flex flex-col items-center gap-2 group cursor-crosshair"
+              >
+                <div className="font-fraunces text-3xl md:text-5xl text-ink/20 group-hover:text-forest transition-colors duration-500 font-bold tracking-tighter">
+                  {b.name.toUpperCase()}
+                </div>
+                <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="w-1 h-1 rounded-full bg-forest" />
+                  <span className="label-sm text-forest">{b.sector}</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
