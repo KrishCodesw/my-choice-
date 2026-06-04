@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://mychoice-mumbai.com"), // Replace with your actual domain
+  metadataBase: new URL("https://mychoiceindia.vercel.app/"), // Replace with your actual domain
   title: {
     default: "MyChoice — Premium Electric, Hardware & Sanitary Ware Mumbai",
     template: "%s | MyChoice Mumbai",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     title: "MyChoice — Mumbai's Exclusive Electric & Hardware Showroom",
     description:
       "Source premium electrical, hardware, and sanitary ware. Visit our luxury showroom in Mumbai for expert guidance and global brands.",
-    url: "https://mychoice-mumbai.com",
+    url: "https://mychoiceindia.vercel.app/",
     siteName: "MyChoice Mumbai",
     images: [
       {
@@ -62,7 +62,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "MyChoice — Premium Electric & Hardware Mumbai",
-    description: "Mumbai's premier destination for luxury home fittings and expert sourcing.",
+    description:
+      "Mumbai's premier destination for luxury home fittings and expert sourcing.",
     images: ["/showroom2.jpg"],
     creator: "@mychoice",
   },
