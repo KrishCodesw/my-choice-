@@ -94,3 +94,33 @@ export interface CartItem {
   image?: string
   qty: number
 }
+
+// ─── Job ──────────────────────────────────────────────────────
+export type JobStatus = 'pending' | 'assigned' | 'completed' | 'cancelled'
+export type JobType   = 'electrical' | 'plumbing' | 'carpentry' | 'tiling' | 'general'
+
+export interface Job {
+  _id:           string
+  _createdAt:    string
+  customerName:  string
+  customerPhone: string
+  customerArea:  string
+  jobType:       JobType
+  description?:  string
+  preferredDate?: string
+  scheduledDate?: string
+  scheduledTime?: string
+  status:        JobStatus
+  ownerNotes?:   string
+  rating?:       number
+  ratingNote?:   string
+  requestedAt?:  string
+  completedAt?:  string
+  assignedWorker?: {
+    _id:       string
+    name:      string
+    specialty: WorkerSpecialty
+    phone?:    string
+    rating?:   number
+  }
+}

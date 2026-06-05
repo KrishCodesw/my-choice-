@@ -75,3 +75,36 @@ export const SITE_SETTINGS_QUERY = groq`
     ownerPhoto { asset->{ _id, url } }
   }
 `
+
+// ─── Jobs ─────────────────────────────────────────────────────
+export const ALL_JOBS_QUERY = groq`
+  *[_type == "job"] | order(_createdAt desc) {
+    _id, _createdAt,
+    customerName, customerPhone, customerArea,
+    jobType, description, preferredDate,
+    scheduledDate, scheduledTime,
+    status, ownerNotes, rating, ratingNote,
+    requestedAt, completedAt,
+    assignedWorker->{ _id, name, specialty, phone, rating }
+  }
+`
+
+export const PENDING_JOBS_QUERY = groq`
+  *[_type == "job" && status == "pending"] | order(_createdAt desc) {
+    _id, _createdAt,
+    customerName, customerPhone, customerArea,
+    jobType, description, preferredDate, status
+  }
+`
+
+export const JOB_BY_ID_QUERY = groq`
+  *[_type == "job" && _id == $id][0] {
+    _id, _createdAt,
+    customerName, customerPhone, customerArea,
+    jobType, description, preferredDate,
+    scheduledDate, scheduledTime,
+    status, ownerNotes, rating, ratingNote,
+    requestedAt, completedAt,
+    assignedWorker->{ _id, name, specialty, phone, rating }
+  }
+`

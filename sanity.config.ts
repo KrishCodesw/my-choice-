@@ -20,19 +20,30 @@ export default defineConfig({
             S.listItem().title('🏷️ Brands').child(
               S.documentTypeList('brand').title('Brands')
             ),
+            S.divider(),
             S.listItem().title('👷 Workers').child(
               S.documentTypeList('worker').title('Workers')
             ),
+            S.listItem().title('🔨 Jobs').child(
+              S.documentTypeList('job')
+                .title('Jobs')
+                .defaultOrdering([{ field: '_createdAt', direction: 'desc' }])
+            ),
+            S.divider(),
             S.listItem().title('⭐ Testimonials').child(
               S.documentTypeList('testimonial').title('Testimonials')
             ),
             S.listItem().title('❓ FAQs').child(
               S.documentTypeList('faq').title('FAQs')
             ),
+            S.divider(),
             S.listItem().title('🏠 Site Settings').child(
-              S.document().schemaType('siteSettings').documentId('siteSettings').title('Site Settings')
+              S.document()
+                .schemaType('siteSettings')
+                .documentId('siteSettings')
+                .title('Site Settings')
             ),
-          ])
+          ]),
     }),
     visionTool(),
   ],
