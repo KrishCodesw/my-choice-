@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Plus } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import type { FAQ } from "@/types";
 
 interface Props {
@@ -34,7 +35,7 @@ const fallback: FAQ[] = [
     _id: "3",
     question: "CP vs SS bathroom fittings — which is better?",
     answer:
-      "CP looks great but tarnishes in humid Mumbai conditions. SS is more durable long-term. We stock both — come see in person.",
+      "CP looks great but tarnishes in Mumbai conditions. SS is more durable long-term. We stock both — come see in person.",
     category: "sanitary",
   },
   {
@@ -79,59 +80,66 @@ export function FaqSection({ faqs }: Props) {
         <span className="label text-[#1C2B1A]">Common Questions</span>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-[#DDDDD5]">
-        {/* Category rail */}
-        <div className="p-6 md:p-8 flex flex-col gap-1">
-          <p className="label-sm text-[#AEAE9E] mb-4">Filter by topic</p>
-          {cats.map((c) => (
-            <button
-              key={c.value}
-              onClick={() => setCat(c.value)}
-              className={`text-left py-2.5 px-3 label transition-colors duration-150 ${
-                cat === c.value
-                  ? "bg-[#1C2B1A] text-[#F4F4F0]"
-                  : "text-[#8A8A7A] hover:text-[#1C2B1A] hover:bg-[#EEEEE8]"
-              }`}
-            >
-              {c.label}
-            </button>
-          ))}
-        </div>
+      {/* Category Pills - More compact horizontal layout */}
+      <div className="px-6 md:px-10 py-4 border-b border-[#DDDDD5] flex flex-wrap gap-2">
+        {cats.map((c) => (
+          <button
+            key={c.value}
+            onClick={() => setCat(c.value)}
+            className={`px-4 py-1.5 label-sm transition-all duration-200 rounded-full ${
+              cat === c.value
+                ? "bg-[#1C2B1A] text-[#F4F4F0]"
+                : "text-[#8A8A7A] hover:text-[#1C2B1A] hover:bg-[#EEEEE8]"
+            }`}
+          >
+            {c.label}
+          </button>
+        ))}
+      </div>
 
-        {/* Accordion */}
-        <div className="lg:col-span-3 divide-y divide-[#DDDDD5]">
-          {filtered.length === 0 ? (
-            <p className="p-8 font-fraunces italic text-[#8A8A7A] text-xl">
-              No questions in this category yet.
-            </p>
-          ) : (
-            filtered.map((faq) => (
-              <div key={faq._id}>
-                <button
-                  onClick={() => setOpen(open === faq._id ? null : faq._id)}
-                  className="w-full flex items-start justify-between gap-6 px-6 md:px-10 py-6 text-left group"
+      <div className="divide-y divide-[#DDDDD5]">
+        {filtered.length === 0 ? (
+          <p className="p-8 font-fraunces italic text-[#8A8A7A] text-xl">
+            No questions in this category yet.
+          </p>
+        ) : (
+          filtered.map((faq) => (
+            <div key={faq._id} className="group">
+              <motion.button
+                whileTap={{ scale: 0.995 }}
+                onClick={() => setOpen(open === faq._id ? null : faq._id)}
+                className="w-full flex items-start justify-between gap-6 px-6 md:px-10 py-5 text-left transition-colors duration-200"
+              >
+                <span className="font-fraunces text-[#1C2B1A] text-lg md:text-xl leading-snug group-hover:text-[#3D6B45] transition-colors">
+                  {faq.question}
+                </span>
+                <motion.span
+                  animate={{ rotate: open === faq._id ? 45 : 0 }}
+                  transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
+                  className="text-[#3D6B45] flex-shrink-0 mt-1"
                 >
-                  <span className="font-fraunces text-[#1C2B1A] text-xl leading-snug group-hover:text-[#3D6B45] transition-colors">
-                    {faq.question}
-                  </span>
-                  <span
-                    className="text-[#3D6B45] flex-shrink-0 mt-1 transition-transform duration-300"
-                    style={{
-                      transform: open === faq._id ? "rotate(45deg)" : "none",
-                    }}
-                  >
-                    <Plus size={16} strokeWidth={1.5} />
-                  </span>
-                </button>
+                  <Plus size={16} strokeWidth={1.5} />
+                </motion.span>
+              </motion.button>
+              
+              <AnimatePresence initial={false}>
                 {open === faq._id && (
-                  <div className="px-6 md:px-10 pb-6 text-sm text-[#8A8A7A] leading-relaxed max-w-2xl">
-                    {faq.answer}
-                  </div>
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-6 md:px-10 pb-6 text-sm md:text-base text-[#8A8A7A] leading-relaxed max-w-3xl">
+                      {faq.answer}
+                    </div>
+                  </motion.div>
                 )}
-              </div>
-            ))
-          )}
-        </div>
+              </AnimatePresence>
+            </div>
+          ))
+        )}
       </div>
     </section>
   );
