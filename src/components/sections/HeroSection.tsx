@@ -5,7 +5,9 @@ import { motion, useSpring, useMotionValue, useInView } from "framer-motion";
 import { ArrowDownRight, Zap, Wrench, Droplets } from "lucide-react";
 import type { SiteSettings } from "@/types";
 
-interface Props { settings: SiteSettings | null }
+interface Props {
+  settings: SiteSettings | null;
+}
 
 export function HeroSection({ settings }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -23,7 +25,7 @@ export function HeroSection({ settings }: Props) {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const { innerWidth, innerHeight } = window;
-      const x = (e.clientX - innerWidth  / 2) / 25;
+      const x = (e.clientX - innerWidth / 2) / 25;
       const y = (e.clientY - innerHeight / 2) / 25;
       mouseX.set(x);
       mouseY.set(y);
@@ -35,14 +37,14 @@ export function HeroSection({ settings }: Props) {
   }, [mouseX, mouseY, rotateX, rotateY]);
 
   const sectors = [
-    { Icon: Zap,      label: "Electrical",    pos: "top-[8%] left-[8%]"   },
-    { Icon: Wrench,   label: "Hardware",      pos: "bottom-[18%] left-[5%]" },
-    { Icon: Droplets, label: "Sanitary Ware", pos: "top-[18%] right-[8%]"  },
+    { Icon: Zap, label: "Electrical", pos: "top-[8%] left-[8%]" },
+    { Icon: Wrench, label: "Hardware", pos: "bottom-[18%] left-[5%]" },
+    { Icon: Droplets, label: "Sanitary Ware", pos: "top-[18%] right-[8%]" },
   ];
 
   const stats = [
-    { value: settings?.stats?.yearsInBusiness  ?? "25+", label: "Years"    },
-    { value: settings?.stats?.brandsStocked    ?? "50+", label: "Brands"   },
+    { value: settings?.stats?.yearsInBusiness ?? "25+", label: "Years" },
+    { value: settings?.stats?.brandsStocked ?? "50+", label: "Brands" },
     { value: settings?.stats?.projectsSupplied ?? "500+", label: "Projects" },
   ];
 
@@ -76,7 +78,7 @@ export function HeroSection({ settings }: Props) {
           transition={{ duration: 1.4, ease: [0.23, 1, 0.32, 1] }}
           className="label-sm text-forest uppercase"
         >
-          Mumbai's Exclusive Showroom
+          Architectural Procurement
         </motion.div>
 
         {/* Headline */}
@@ -117,10 +119,14 @@ export function HeroSection({ settings }: Props) {
           <a
             href="#products"
             className="group relative flex items-center gap-10 bg-ink text-parchment px-8 py-5 label overflow-hidden"
-            style={{ transition: "transform 100ms cubic-bezier(0.23,1,0.32,1)" }}
-            onMouseDown={e => (e.currentTarget.style.transform = "scale(0.97)")}
-            onMouseUp={e => (e.currentTarget.style.transform = "scale(1)")}
-            onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
+            style={{
+              transition: "transform 100ms cubic-bezier(0.23,1,0.32,1)",
+            }}
+            onMouseDown={(e) =>
+              (e.currentTarget.style.transform = "scale(0.97)")
+            }
+            onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
           >
             <span className="relative z-10">Browse Products</span>
             <ArrowDownRight
@@ -130,7 +136,9 @@ export function HeroSection({ settings }: Props) {
             {/* Hover fill — specific property */}
             <div
               className="absolute inset-0 bg-forest translate-y-full group-hover:translate-y-0 pointer-events-none"
-              style={{ transition: "transform 380ms cubic-bezier(0.23,1,0.32,1)" }}
+              style={{
+                transition: "transform 380ms cubic-bezier(0.23,1,0.32,1)",
+              }}
             />
           </a>
 
@@ -138,11 +146,11 @@ export function HeroSection({ settings }: Props) {
             href="#workers"
             className="flex items-center gap-3 border-b border-ink/20 py-2 label text-ink"
             style={{ transition: "color 150ms, border-color 150ms" }}
-            onMouseEnter={e => {
+            onMouseEnter={(e) => {
               e.currentTarget.style.color = "#3D6B45";
               e.currentTarget.style.borderColor = "#3D6B45";
             }}
-            onMouseLeave={e => {
+            onMouseLeave={(e) => {
               e.currentTarget.style.color = "#1C2B1A";
               e.currentTarget.style.borderColor = "rgba(28,43,26,0.2)";
             }}
@@ -162,8 +170,8 @@ export function HeroSection({ settings }: Props) {
           style={{ x: smoothX, y: smoothY }}
           className={`absolute ${node.pos} hidden lg:flex flex-col items-center gap-3 opacity-10 hover:opacity-100 pointer-events-none lg:pointer-events-auto`}
           /* Specific opacity transition */
-          onMouseEnter={e => (e.currentTarget.style.opacity = "1")}
-          onMouseLeave={e => (e.currentTarget.style.opacity = "0.1")}
+          onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+          onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.1")}
         >
           <div
             className="p-4 border border-ink/10 bg-white/40 backdrop-blur-sm"
@@ -204,13 +212,15 @@ export function HeroSection({ settings }: Props) {
         {/* Scroll cue */}
         <div
           className="flex flex-col items-center gap-2 cursor-pointer group"
-          onClick={() => window.scrollTo({ top: window.innerHeight, behavior: "smooth" })}
+          onClick={() =>
+            window.scrollTo({ top: window.innerHeight, behavior: "smooth" })
+          }
         >
           <span
             className="label-sm text-muted"
             style={{ transition: "color 150ms" }}
-            onMouseEnter={e => (e.currentTarget.style.color = "#1C2B1A")}
-            onMouseLeave={e => (e.currentTarget.style.color = "#8A8A7A")}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "#1C2B1A")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "#8A8A7A")}
           >
             Scroll
           </span>
@@ -232,7 +242,10 @@ export function HeroSection({ settings }: Props) {
 
       {/* Blueprint corner SVG */}
       <div className="absolute top-0 right-0 w-32 h-32 md:w-64 md:h-64 pointer-events-none opacity-[0.04]">
-        <svg viewBox="0 0 100 100" className="w-full h-full fill-none stroke-ink stroke-[0.5]">
+        <svg
+          viewBox="0 0 100 100"
+          className="w-full h-full fill-none stroke-ink stroke-[0.5]"
+        >
           <circle cx="100" cy="0" r="40" />
           <circle cx="100" cy="0" r="70" />
           <circle cx="100" cy="0" r="100" />
